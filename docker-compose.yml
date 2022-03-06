@@ -1,0 +1,62 @@
+version: '3.9'
+services:
+  app:
+    build: 
+      args:
+        user: braoul
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    image: blog
+    container_name: blog-app
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    networks:
+      - blog-net
+  
+  db:
+    image: mysql:8.0
+    container_name: blog-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - ./docker/mysql:/var/lib/mysql
+    networks:
+      - blog-net
+      
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: blog-pma
+    restart: unless-stopped
+    environment:
+      PMA_HOST: db
+    ports:
+      - "3307:80"
+    networks:
+      - blog-net
+  
+  nginx:
+    image: nginx:1.21.6-alpine
+    container_name: blog-nginx
+    restart: unless-stopped
+    ports:
+      - 8000:80
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx:/etc/nginx/conf.d
+    networks:
+      - blog-net
+
+
+networks:
+  blog-net:
+    driver: bridge
+
