@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -20,4 +21,4 @@ Route::get("/", function () {
     ]);
 });
 
-Route::inertia("/users", "Users/Index");
+Route::get("/users", [UserController::class, "index"])->name("users.index");

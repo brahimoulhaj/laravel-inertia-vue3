@@ -3,7 +3,7 @@
         <div
             class="flex flex-col w-64 h-screen px-4 py-8 overflow-y-auto border-r"
         >
-            <h2 class="text-3xl font-semibold text-center text-blue-800">
+            <h2 class="text-3xl font-semibold text-center text-red-600">
                 Logo
             </h2>
 
