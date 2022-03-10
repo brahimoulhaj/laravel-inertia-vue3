@@ -86,6 +86,7 @@
                             v-html="link.label"
                             class="py-2 px-3 m-0.5 rounded border" 
                             :class="{'bg-blue-100': link.active}"
+                            preserve-scroll
                         />
                     </div>
                 </tfoot>
